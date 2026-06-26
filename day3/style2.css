@@ -1,0 +1,62 @@
+#layout {
+  display: grid;
+  grid-template-areas:
+    "header header header header"
+    "sidebar contents contents contents"
+    "footer footer footer footer";
+  height: 100vh;
+  width: 100vh;
+}
+
+* {
+  color: white;
+  font-size: larger;
+  margin: 0;
+  font-family: monospace;
+}
+
+header {
+  background-color: blueviolet;
+  grid-area: header;
+  height: 10vh;
+  text-align: center;
+  transition: background-color 0.3s ease-out;
+  &&:hover {
+    background-color: rgb(156, 93, 215);
+  }
+}
+
+footer {
+  background-color: chocolate;
+  grid-area: footer;
+  height: 10vh;
+  text-align: center;
+  transition: background-color 0.3s ease-out;
+  &&:hover {
+    background-color: rgb(202, 137, 90);
+  }
+}
+
+#sidebar {
+  background-color: chartreuse;
+  grid-area: sidebar;
+  height: 80vh;
+  width: 20vw;
+  transition: background-color 0.3s ease-out;
+
+  &&:hover {
+    background-color: rgb(166, 228, 104);
+  }
+}
+
+#content {
+  background-color: cadetblue;
+  grid-area: contents;
+  height: 80vh;
+  width: 80vw;
+  transition: background-color 0.3s ease-out;
+
+  &&:hover {
+    background-color: rgb(81, 136, 138);
+  }
+}

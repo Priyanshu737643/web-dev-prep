@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      ::selection {
+        background-color: rgb(41, 162, 192);
+        color: rgb(255, 255, 255);
+      }
+    </style>
+  </head>
+  <body style="background-color: rgb(107, 100, 100)">
+    <!-- Comment -->
+
+    <!-- <h1>This is top level heading</h1>
+    This is <strong>strong</strong> text.
+    This is <b>bold</b> text.
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat mollitia suscipit distinctio quaerat fugit eum asperiores autem eligendi eveniet quod. Quis necessitatibus mollitia ea nam sequi ex consequuntur eum. Voluptas nesciunt aliquam fugiat nisi quasi rerum similique aut et aperiam?</p>
+    <span>This is span</span>
+    <span>This is another span</span> -->
+
+    <!-- without using semantics -->
+
+    <!-- <div>
+        This is header
+        <div>
+            This is navigation bar
+        </div>
+    </div>
+    <div>
+        This is main content
+        <div>This is article 1</div>
+        <div>This is article 2</div>
+        <div>This is article 3</div>
+    </div>
+    <div>This is a footer</div> -->
+
+    <!-- with using semantics -->
+
+    <!-- <header>
+        <nav>This is a navbar</nav>
+    </header>
+    <main>
+        <section>This is section 1</section>
+        <section>This is section 2</section>
+        This is a main content
+        <article>This is article 1</article>
+        <article>This is article 2</article>
+        <article>This is article 3</article>
+    </main>
+    <footer>This is footer</footer> -->
+
+    <!-- table -->
+
+    <!-- <a href="https://www.google.com">Google</a>
+    <a href="tel:+919046246324">Call Me</a>
+    <a href="mailto:biprosmmajumder@gmail.com">E-Mail Me</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Power</th>
+          <th>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Trump</td>
+          <td>To lie</td>
+          <td>USA</td>
+        </tr>
+        <tr>
+          <td>Rahul</td>
+          <td>To speak shit</td>
+          <td>INDIA</td>
+        </tr>
+        <tr>
+          <td>Nitish</td>
+          <td>To hide</td>
+          <td>INDIA</td>
+        </tr>
+      </tbody>
+    </table> -->
+
+    <!-- multimedia -->
+    <!-- <div>
+      <img
+        src="/multimedia/images/car.png"
+        alt="Car"
+        height="200px"
+        width="300px"
+      />
+
+      <img
+        src="data:image/png;base64,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"
+        alt="Google Logo"
+      />
+
+      <audio controls>
+        <source src="/multimedia/audios/drum-kick.mp3" type="audio/mp3" />
+        <source src="/multimedia/audios/drum-kick.ogg" type="audio/ogg" />
+        Audio file is curropted
+      </audio>
+
+      <video controls width="500px">
+        <source src="/multimedia/videos/bridge.mp4" type="video/mp4" />
+        <source src="/multimedia/videos/bridge.ogg" type="video/ogg" />
+        Video file is unsupported
+      </video>
+    </div> -->
+
+    <!-- form -->
+    <!-- <form method="post">
+      <label for="username">Username:</label>
+      <input type="text" name="username" />
+      <label for="password">Password:</label>
+      <input type="password" name="password" />
+      <input type="color" />
+      <input type="file" />
+      <input type="range" value="50" maxlength="100" />
+      <input type="date" />
+      <input type="search" />
+      <button>Submit</button>
+    </form> -->
+
+    <!-- <form action="https://www.youtube.com/results" method="GET">
+      <input type="text" name="search_query" placeholder="Search in YouTube" />
+      <button type="submit">Search</button>
+    </form> -->
+
+    <p>
+      This a
+      <span style="color: red; background-color: yellow">Example</span>
+      paragraph
+    </p>
+
+    <img
+      style="border-radius: 5px"
+      src="https://www.investopedia.com/thmb/33J47lYaGMBV4nx8vdJNtHBv3cY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/html.asp-final-86da30eff12f46f3a1394efb0b137103.png"
+      alt="html"
+      width="300px"
+    />
+
+    <h1 style="color: rgb(52, 156, 191)">Html Introduction</h1>
+    <h2 style="color: aqua; font-family: monospace; font-size: xx-large">
+      Description
+    </h2>
+    <p style="color: bisque; font-family: cursive; font-size: x-large">
+      HTML (HyperText Markup Language) is the standard markup language used to
+      create and structure the content of web pages. It acts as the skeleton or
+      structural foundation of any website, defining components like paragraphs,
+      headings, data tables, images, and hyperlinks. Web browsers read HTML
+      documents and render them into the visual pages you see online
+    </p>
+  </body>
+</html>

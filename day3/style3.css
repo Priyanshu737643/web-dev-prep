@@ -1,0 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background-color: cadetblue;
+  height: 60vh;
+  width: 100vw;
+  position: relative;
+}
+
+#ball {
+  position: absolute;
+  bottom: 0;
+  height: 100px;
+  width: 100px;
+  background: radial-gradient(red, purple, blue);
+  border: 1px groove purple;
+  border-radius: 100%;
+  animation:
+    bounceX 5s linear alternate infinite,
+    bounceY 1s ease-out alternate infinite;
+}
+
+@keyframes bounceX {
+  from {
+    left: 0;
+  }
+  to {
+    left: 92.5%;
+  }
+}
+
+@keyframes bounceY {
+  from {
+    bottom: 0;
+  }
+  to {
+    bottom: 80%;
+  }
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  /* Z-Index will only work if the position property is set to - absolute, relative, fixed, sticky */
+  top: 50px;
+  left: 90px;
+}
+
+#box1 {
+  background-color: coral;
+  z-index: 2;
+}
+
+#box2 {
+  background-color: green;
+  z-index: 3;
+}
+
+#box3 {
+  background-color: orange;
+  z-index: 5;
+}
+
+#box4 {
+  background-color: red;
+  z-index: 1;
+}
+
+#box5 {
+  background-color: blueviolet;
+  z-index: 4;
+}
