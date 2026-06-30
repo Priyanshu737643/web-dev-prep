@@ -4,9 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAY - 7</title>
+    <style>
+        .container{
+            height: 500px;
+            width: 500px;
+            color: white;
+            border: 2px groove rgb(22, 2, 41);
+            background-color: blueviolet;
+            border-radius: 15px;
+            text-align: center;
+            transition: background-color 0.1s ease-out;
+            &&:hover{
+                background-color: rgb(66, 15, 113);
+            }
+        }
+        #postTitle, #postId, #postBody{
+            transition: color 0.1s ease-out;
+            &&:hover{
+                color: rgb(178, 125, 228);
+            }
+        }
+
+    </style>
 </head>
 <body>
     <h1>Day 7</h1>
+    <div class="container">
+        <h1 id="postTitle"></h1>
+        <div id="postId"></div>
+        <div id="postBody"></div>
+    </div>
 </body>
 <script src="script.js"></script>
 </html>
