@@ -101,7 +101,6 @@
 
 // Promise.reject("Wrong Password").catch(console.log);
 
-
 //? Promise.all - Runs multiple promises simultaneously
 // const p1 = Promise.resolve("A");
 // const p2 = Promise.resolve("B");
@@ -112,7 +111,7 @@
 //         console.log(result);
 //     })
 //     .catch((error) => { console.log(`Error: ${error}`); });
-    
+
 //? Promise.race - returns whichever Promise settles first (resolve or reject)
 // const p1 = new Promise((resolve) => {
 //     setTimeout(() => {
@@ -129,14 +128,12 @@
 // Promise.race([p1, p2])
 //     .then(console.log);
 
-
 //? Promise.allSettled - waits for every promise, regardless of success or failure
 // Promise.allSettled([
 //     Promise.resolve("A"),
 //     Promise.reject("Error")
 // ])
 //     .then(console.log);
-
 
 //? Promise.any - returns the first fullfilled Promise, unless all promises are rejected
 // Promise.any([
@@ -145,6 +142,7 @@
 //     Promise.resolve("A")
 // ])
 //     .then(console.log);
+
 
 
 //* Fetching API
@@ -164,4 +162,52 @@
 //     })
 
 
-//* 
+
+//* Higher Order Function (HOF)
+//? 1. It Accepts another function as an argument
+//? 2. It returns another function
+
+// function greetA() {
+//   console.log("Hello A");
+// }
+// function greetB() {
+//   console.log("Hello B");
+// }
+// function greetC() {
+//   console.log("Hello C");
+// }
+
+
+// function greet(uname, callback) {  //? HOF
+//     console.log("Hello", uname);
+//     callback();
+// }
+// function done() {  //? Callback Function
+//     console.log("Greeting Completed!");
+// }
+
+// greet("A", done);
+
+
+//? Function that accepts another function
+// function calculate(num1, num2, operation) {  //? HOF
+//     return operation(num1, num2);
+// }
+// function add(x, y) {  //? Callback Function
+//     return x + y;
+// }
+// function mul(x, y) {  //? Callback Function
+//   return x * y;
+// }
+// console.log(calculate(4, 5, add));
+// console.log(calculate(4, 5, mul));
+
+//? Function returning another function
+function multiply(multiplier) {
+    return function (num) {
+        return num * multiplier  //? num = 10  |  multiplier = 2
+    }
+}
+const double = multiply(2);
+console.log(double(10));  //? 20
+
