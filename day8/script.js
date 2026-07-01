@@ -120,18 +120,49 @@ obj2 = {
 // }
 // arr1[5] = 6;
 // console.log(arr1);
+//* ------------------------------
+// let num = 10;
+// console.log("Number: ", num);
 
-let num = 10;
-console.log("Number: ", num);
-
-function greet() {
-    console.log("Hello");
-}
-greet();
+// function greet() {
+//     console.log("Hello");
+// }
+// greet();
+//* ------------------------------
 
 //* local Execution Context
 //* Global Execution Context
 
 //* JavaScript Engine - is a program that reads Javascript code and execute it.
-//? JavaScript is both interpreted and a compiled language
+//? JavaScript is both interpreted and a compiled language.
+//? Modern JavaScript engines uses a Just-in-Time (JIT) compiler.
+
+//? V8 - Google Chrome
+//? SpiderMonkey - Mozilla Firefox
+//? JavaScriptCore - Apple Safari
+//? Chakra - Microsoft Edge
+//? JerryScript Community project (Open Source)
+
+
+//* --------------------------------------------------------------------------- 
+
+//* Call Stack - is the JS engine which is designed to execute syncronous code Call Stack waits for no one. Call Stack is where JS keeps track of the functions that are currently executing.
+
+//* Web API - are the features that are provided by our browsers.
+
+//* Task Queue - contains callbacks that are ready to execute after the current code finishes. Eg: setTimeOut, setTimeInterval, DOM events, Message channels, postMessage.
+
+//* Micro Task Queue - it has higher priority than task queue. Eg: Promises, queueMicrotask, mutationObserver.
+
+//* Event Loop - It is a process which is responsible for delivering code from task queue or micro task queue to the call stack. And it can only do it if the call stack is empty. Event Loop will always check whether the call stack is empty or not.
+
+//* Starving - When Micro Task Queue has multiple elements inside it, it cannot move onto the Task Queue before it dequeues all the element from the Micro Task Queue. This event is called starving.
+
+Promise.resolve("This is resolved").then(console.log);  // micro task queue
+setTimeout(() => {
+    console.log("3 seconds are completed");
+}, 3000);
+console.log("This is a script");  // task queue
+
+//* --------------------------------------------------------------------------- 
 
