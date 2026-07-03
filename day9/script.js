@@ -35,9 +35,10 @@ window.onload = function () {
   loadImage();
   loadMap();
   update();
-  console.log(`Total Walls: ${walls.size}`);
-  console.log(`Total Foods: ${foods.size}`);
-  console.log(`Total Ghosts: ${ghosts.size}`);
+  this.document.addEventListener("keyup", movePlayer);
+  // console.log(`Total Walls: ${walls.size}`);
+  // console.log(`Total Foods: ${foods.size}`);
+  // console.log(`Total Ghosts: ${ghosts.size}`);
 };
 
 const tileMap = [
@@ -94,7 +95,7 @@ function loadImage() {
 
 //? FPS
 function update() {
-  // move();
+  move();
   draw();
   setTimeout(() => {
     update();
@@ -102,21 +103,31 @@ function update() {
   // 20fps = 1000ms/20 = 50ms fps
 }
 
+function move() {
+  pacman.x += pacman.XVelocity;
+  pacman.y += pacman.YVelocity;
+}
+
 //? Properties of getContext(2d)
 function draw() {
-  context.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height);
+  context.drawImage(
+    pacman.image,
+    pacman.x,
+    pacman.y,
+    pacman.width,
+    pacman.height,
+  );
   for (const ghost of ghosts) {
     context.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height);
   }
   for (const wall of walls.values()) {
     context.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height);
   }
-  context.fillStyle = 'wheat';
+  context.fillStyle = "wheat";
   for (const food of foods.values()) {
     context.fillRect(food.x, food.y, food.width, food.height);
   }
 }
-
 
 class Block {
   constructor(image, x, y, width, height) {
@@ -130,7 +141,7 @@ class Block {
     this.YStart = y;
 
     // direction
-    this.direction = 'R'; // R - Right direction
+    this.direction = "R"; // R - Right direction
     this.XVelocity = 0;
     this.YVelocity = 0;
   }
@@ -140,23 +151,36 @@ class Block {
     this.changeVelocity();
   }
 
-  changeVelocity() { 
-    if (this.direction == "W") {  // W - Up
+  changeVelocity() {
+    if (this.direction == "U") {
+      // W - Up
       this.XVelocity = 0;
-      this.YVelocity = -tileSize / 4;  // ( /4) - for slow movement
-    }
-    else if (this.direction == "S") {  // S - Down
+      this.YVelocity = -tileSize / 4; // ( /4) - for slow movement
+    } else if (this.direction == "D") {
+      // S - Down
       this.XVelocity = 0;
-      this.YVelocity = -tileSize / 4;
-    }
-    else if (this.direction == "A") {  // A - Left
+      this.YVelocity = tileSize / 4;
+    } else if (this.direction == "L") {
+      // A - Left
       this.XVelocity = -tileSize / 4;
       this.YVelocity = 0;
-    }
-    else if (this.direction == "D") {  // D - Right
+    } else if (this.direction == "R") {
+      // D - Right
       this.XVelocity = tileSize / 4;
       this.YVelocity = 0;
     }
+  }
+}
+
+function movePlayer(event) {
+  if (event.code == "ArrowUp" || event.code == "KeyW") {
+    pacman.changeDirection("U");
+  } else if (event.code == "ArrowDown" || event.code == "KeyS") {
+    pacman.changeDirection("D");
+  } else if (event.code == "ArrowLeft" || event.code == "KeyA") {
+    pacman.changeDirection("L");
+  } else if (event.code == "ArrowRight" || event.code == "KeyD") {
+    pacman.changeDirection("R");
   }
 }
 
