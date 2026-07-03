@@ -47,7 +47,7 @@ const tileMap = [
   "X                 X",
   "X XX X XXXXX X XX X",
   "X    X       X    X",
-  "XXXX X       X    X",
+  "X    X       X    X",
   "XXXX X       X XXXX",
   "000X X       X X000", // X = WALLS , 0 = FOOD , P = PAC-MAN , rbpy = ghosts
   "XXXX X XXrXX X XXXX",
@@ -55,7 +55,7 @@ const tileMap = [
   "XXXX X XXXXX X XXXX",
   "000X X       X X000",
   "XXXX X       X XXXX",
-  "XXXX X       X    X",
+  "X    X       X    X",
   "X    X       X    X",
   "X XX X XXXXX X XX X",
   "X                 X",
@@ -128,6 +128,35 @@ class Block {
 
     this.XStart = x;
     this.YStart = y;
+
+    // direction
+    this.direction = 'R'; // R - Right direction
+    this.XVelocity = 0;
+    this.YVelocity = 0;
+  }
+
+  changeDirection(direction) {
+    this.direction = direction;
+    this.changeVelocity();
+  }
+
+  changeVelocity() { 
+    if (this.direction == "W") {  // W - Up
+      this.XVelocity = 0;
+      this.YVelocity = -tileSize / 4;  // ( /4) - for slow movement
+    }
+    else if (this.direction == "S") {  // S - Down
+      this.XVelocity = 0;
+      this.YVelocity = -tileSize / 4;
+    }
+    else if (this.direction == "A") {  // A - Left
+      this.XVelocity = -tileSize / 4;
+      this.YVelocity = 0;
+    }
+    else if (this.direction == "D") {  // D - Right
+      this.XVelocity = tileSize / 4;
+      this.YVelocity = 0;
+    }
   }
 }
 
