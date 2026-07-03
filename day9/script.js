@@ -1,0 +1,156 @@
+//* board
+let board;
+let height;
+let width;
+const rowCount = 21;
+const columnCount = 19;
+const tileSize = 32;
+const boardWidth = columnCount * tileSize;
+const boardHeight = rowCount * tileSize;
+let context;
+
+
+//* sprites
+let blueGhost;
+let pinkGhost;
+let purpleGhost;
+let redGhost;
+let yellowGhost;
+let wall;
+let pacmanLeft;
+let pacmanRight;
+let pacmanUp;
+let pacmanDown;
+
+const walls = new Set();
+const ghosts = new Set();
+const foods = new Set();
+let pacman;
+
+
+
+window.onload = function () {
+  board = document.querySelector("#board");
+  board.height = boardHeight;
+  board.width = boardWidth;
+  context = board.getContext("2d");
+  // getContext('2d') - method returns a built-in CanvasRenderingContext2D Object.This provides the properties and methods needed to draw shapes, text, images, other graphics on an HTML canvas.
+    loadImage();
+    loadMap();
+}
+
+const tileMap = [
+  "XXXXXXXXXXXXXXXXXXX",
+  "X       X         X",
+  "X XX XXX X XXX XX X",
+  "X                 X",
+  "X XX X XXXXX X XX X",
+  "X    X       X    X",
+  "XXXX X       X    X",
+  "XXXX X       X XXXX",
+  "000X X       X X000",  // X = WALLS , 0 = FOOD , P = PAC-MAN , rbpy = ghosts
+  "XXXX X XXrXX X XXXX",
+  "0       bpy       0",
+  "XXXX X XXXXX X XXXX",
+  "000X X       X X000",
+  "XXXX X       X XXXX",
+  "XXXX X       X    X",
+  "X    X       X    X",
+  "X XX X XXXXX X XX X",
+  "X                 X",
+  "X XX XXX P XXX XX X",
+  "X       X         X",
+  "XXXXXXXXXXXXXXXXXXX",
+];
+
+function loadImage() {
+    wall = new Image();
+    wall.src = './sprites/wall.png';
+
+    //? Ghost Images
+    blueGhost = new Image();
+    blueGhost.src = './sprites/blueGhost.png';
+    pinkGhost = new Image();
+    pinkGhost.src = "./sprites/pinkGhost.png";
+    purpleGhost = new Image();
+    purpleGhost.src = "./sprites/purpleGhost.png";
+    redGhost = new Image();
+    redGhost.src = "./sprites/redGhost.png";
+    yellowGhost = new Image();
+    yellowGhost.src = "./sprites/yellowGhost.png";
+
+    //? Pac-Man Images
+    pacmanUp = new Image();
+    pacmanUp.src = './sprites/pacmanUp.png';
+    pacmanDown = new Image();
+    pacmanDown.src = "./sprites/pacmanDown.png";
+    pacmanLeft = new Image();
+    pacmanLeft.src = "./sprites/pacmanLeft.png";
+    pacmanRight = new Image();
+    pacmanRight.src = "./sprites/pacmanRight.png";
+}
+
+
+class Block{
+    constructor(image, x, y, width, height) {
+        this.image = image;
+        this.x = x;
+        this.y = y;
+        this.height = height;
+        this.width = width;
+
+        this.XStart = x;
+        this.YStart = y;
+    }
+}
+
+function loadMap() {
+    walls.clear();
+    foods.clear();
+    ghosts.clear();
+
+    for (let row = 0; row < rowCount; row++) {
+        for (let column = 0; column < columnCount; column++) {
+            const rowData = tileMap[row];
+            const tileMapChar = rowData[column];
+            const x = column * tileSize;
+            const y = row * tileSize;
+            if (tileMapChar == "X") {
+              //? wall
+              const wallImage = new Block(wall, x, y, tileSize, tileSize);
+              ghosts.add(wallImage);
+            } else if (tileMapChar == "r") {
+              //? red ghost
+              const red = new Block(redGhost, x, y, tileSize, tileSize);
+              ghosts.add(red);
+            } else if (tileMapChar == "b") {
+              //? blue ghost
+              const blue = new Block(blueGhost, x, y, tileSize, tileSize);
+              ghosts.add(blue);
+            } else if (tileMapChar == "p") {
+              //? pink ghost
+              const pink = new Block(pinkGhost, x, y, tileSize, tileSize);
+              ghosts.add(pink);
+            } else if (tileMapChar == "y") {
+              //? yellow ghost
+              const yellow = new Block(yellowGhost, x, y, tileSize, tileSize);
+              ghosts.add(yellow);
+            } else if (tileMapChar == "P") {
+              //? Pac-Man
+              const pac = new Block(pacmanRight, x, y, tileSize, tileSize);
+            } else if (tileMapChar == ' ') {
+              //? empty is for food
+              const food = new Block(null, x+15, y+15, 5,5);
+                foods.add(food);
+                // 32-5 = 27/2
+            }
+        }
+    }
+}
+
+
+
+//! replace 32px = 256px
+// tile size = 32px  === 256px
+// height = 6 x 32px  ===  6 x 256px
+// width = 4 x 32px  ===  4 x 256px
