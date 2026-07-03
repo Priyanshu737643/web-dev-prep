@@ -9,7 +9,6 @@ const boardWidth = columnCount * tileSize;
 const boardHeight = rowCount * tileSize;
 let context;
 
-
 //* sprites
 let blueGhost;
 let pinkGhost;
@@ -27,17 +26,19 @@ const ghosts = new Set();
 const foods = new Set();
 let pacman;
 
-
-
 window.onload = function () {
   board = document.querySelector("#board");
   board.height = boardHeight;
   board.width = boardWidth;
   context = board.getContext("2d");
   // getContext('2d') - method returns a built-in CanvasRenderingContext2D Object.This provides the properties and methods needed to draw shapes, text, images, other graphics on an HTML canvas.
-    loadImage();
-    loadMap();
-}
+  loadImage();
+  loadMap();
+  update();
+  console.log(`Total Walls: ${walls.size}`);
+  console.log(`Total Foods: ${foods.size}`);
+  console.log(`Total Ghosts: ${ghosts.size}`);
+};
 
 const tileMap = [
   "XXXXXXXXXXXXXXXXXXX",
@@ -48,7 +49,7 @@ const tileMap = [
   "X    X       X    X",
   "XXXX X       X    X",
   "XXXX X       X XXXX",
-  "000X X       X X000",  // X = WALLS , 0 = FOOD , P = PAC-MAN , rbpy = ghosts
+  "000X X       X X000", // X = WALLS , 0 = FOOD , P = PAC-MAN , rbpy = ghosts
   "XXXX X XXrXX X XXXX",
   "0       bpy       0",
   "XXXX X XXXXX X XXXX",
@@ -64,91 +65,115 @@ const tileMap = [
 ];
 
 function loadImage() {
-    wall = new Image();
-    wall.src = './sprites/wall.png';
+  //? Food Image
+  wall = new Image();
+  wall.src = "./sprites/wall.png";
 
-    //? Ghost Images
-    blueGhost = new Image();
-    blueGhost.src = './sprites/blueGhost.png';
-    pinkGhost = new Image();
-    pinkGhost.src = "./sprites/pinkGhost.png";
-    purpleGhost = new Image();
-    purpleGhost.src = "./sprites/purpleGhost.png";
-    redGhost = new Image();
-    redGhost.src = "./sprites/redGhost.png";
-    yellowGhost = new Image();
-    yellowGhost.src = "./sprites/yellowGhost.png";
+  //? Ghost Images
+  blueGhost = new Image();
+  blueGhost.src = "./sprites/blueGhost.png";
+  pinkGhost = new Image();
+  pinkGhost.src = "./sprites/pinkGhost.png";
+  purpleGhost = new Image();
+  purpleGhost.src = "./sprites/purpleGhost.png";
+  redGhost = new Image();
+  redGhost.src = "./sprites/redGhost.png";
+  yellowGhost = new Image();
+  yellowGhost.src = "./sprites/yellowGhost.png";
 
-    //? Pac-Man Images
-    pacmanUp = new Image();
-    pacmanUp.src = './sprites/pacmanUp.png';
-    pacmanDown = new Image();
-    pacmanDown.src = "./sprites/pacmanDown.png";
-    pacmanLeft = new Image();
-    pacmanLeft.src = "./sprites/pacmanLeft.png";
-    pacmanRight = new Image();
-    pacmanRight.src = "./sprites/pacmanRight.png";
+  //? Pac-Man Images
+  pacmanUp = new Image();
+  pacmanUp.src = "./sprites/pacmanUp.png";
+  pacmanDown = new Image();
+  pacmanDown.src = "./sprites/pacmanDown.png";
+  pacmanLeft = new Image();
+  pacmanLeft.src = "./sprites/pacmanLeft.png";
+  pacmanRight = new Image();
+  pacmanRight.src = "./sprites/pacmanRight.png";
+}
+
+//? FPS
+function update() {
+  // move();
+  draw();
+  setTimeout(() => {
+    update();
+  }, 50);
+  // 20fps = 1000ms/20 = 50ms fps
+}
+
+//? Properties of getContext(2d)
+function draw() {
+  context.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height);
+  for (const ghost of ghosts) {
+    context.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height);
+  }
+  for (const wall of walls.values()) {
+    context.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height);
+  }
+  context.fillStyle = 'wheat';
+  for (const food of foods.values()) {
+    context.fillRect(food.x, food.y, food.width, food.height);
+  }
 }
 
 
-class Block{
-    constructor(image, x, y, width, height) {
-        this.image = image;
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.width = width;
+class Block {
+  constructor(image, x, y, width, height) {
+    this.image = image;
+    this.x = x;
+    this.y = y;
+    this.height = height;
+    this.width = width;
 
-        this.XStart = x;
-        this.YStart = y;
-    }
+    this.XStart = x;
+    this.YStart = y;
+  }
 }
 
 function loadMap() {
-    walls.clear();
-    foods.clear();
-    ghosts.clear();
+  walls.clear();
+  foods.clear();
+  ghosts.clear();
 
-    for (let row = 0; row < rowCount; row++) {
-        for (let column = 0; column < columnCount; column++) {
-            const rowData = tileMap[row];
-            const tileMapChar = rowData[column];
-            const x = column * tileSize;
-            const y = row * tileSize;
-            if (tileMapChar == "X") {
-              //? wall
-              const wallImage = new Block(wall, x, y, tileSize, tileSize);
-              ghosts.add(wallImage);
-            } else if (tileMapChar == "r") {
-              //? red ghost
-              const red = new Block(redGhost, x, y, tileSize, tileSize);
-              ghosts.add(red);
-            } else if (tileMapChar == "b") {
-              //? blue ghost
-              const blue = new Block(blueGhost, x, y, tileSize, tileSize);
-              ghosts.add(blue);
-            } else if (tileMapChar == "p") {
-              //? pink ghost
-              const pink = new Block(pinkGhost, x, y, tileSize, tileSize);
-              ghosts.add(pink);
-            } else if (tileMapChar == "y") {
-              //? yellow ghost
-              const yellow = new Block(yellowGhost, x, y, tileSize, tileSize);
-              ghosts.add(yellow);
-            } else if (tileMapChar == "P") {
-              //? Pac-Man
-              const pac = new Block(pacmanRight, x, y, tileSize, tileSize);
-            } else if (tileMapChar == ' ') {
-              //? empty is for food
-              const food = new Block(null, x+15, y+15, 5,5);
-                foods.add(food);
-                // 32-5 = 27/2
-            }
-        }
+  for (let row = 0; row < rowCount; row++) {
+    for (let column = 0; column < columnCount; column++) {
+      const rowData = tileMap[row];
+      const tileMapChar = rowData[column];
+      const x = column * tileSize;
+      const y = row * tileSize;
+      if (tileMapChar == "X") {
+        //? wall
+        const wallImage = new Block(wall, x, y, tileSize, tileSize);
+        walls.add(wallImage);
+      } else if (tileMapChar == "r") {
+        //? red ghost
+        const red = new Block(redGhost, x, y, tileSize, tileSize);
+        ghosts.add(red);
+      } else if (tileMapChar == "b") {
+        //? blue ghost
+        const blue = new Block(blueGhost, x, y, tileSize, tileSize);
+        ghosts.add(blue);
+      } else if (tileMapChar == "p") {
+        //? pink ghost
+        const pink = new Block(pinkGhost, x, y, tileSize, tileSize);
+        ghosts.add(pink);
+      } else if (tileMapChar == "y") {
+        //? yellow ghost
+        const yellow = new Block(yellowGhost, x, y, tileSize, tileSize);
+        ghosts.add(yellow);
+      } else if (tileMapChar == "P") {
+        //? Pac-Man
+        pacman = new Block(pacmanRight, x, y, tileSize, tileSize);
+      } else if (tileMapChar == " ") {
+        //? empty is for food
+        const food = new Block(null, x + 15, y + 15, 5, 5);
+        foods.add(food);
+        // 32-5 = 27/2
+      }
     }
+  }
 }
-
-
 
 //! replace 32px = 256px
 // tile size = 32px  === 256px
