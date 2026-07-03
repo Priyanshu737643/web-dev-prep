@@ -104,12 +104,24 @@ function update() {
 }
 
 function move() {
+  // change velocity
   pacman.x += pacman.XVelocity;
   pacman.y += pacman.YVelocity;
+
+  // check for wall collision
+  for (const wall of walls.values()) {
+    if (collision(pacman, wall)) {
+      pacman.x -= pacman.XVelocity;
+      pacman.y -= pacman.YVelocity;
+      break;
+    }
+  }
 }
 
 //? Properties of getContext(2d)
 function draw() {
+  // clear previous output
+  context.clearRect(0, 0, board.width, board.height);
   context.drawImage(
     pacman.image,
     pacman.x,
@@ -182,6 +194,10 @@ function movePlayer(event) {
   } else if (event.code == "ArrowRight" || event.code == "KeyD") {
     pacman.changeDirection("R");
   }
+}
+
+function collision(a, b) {
+  return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + b.height > b.y;
 }
 
 function loadMap() {
