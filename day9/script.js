@@ -26,6 +26,8 @@ const ghosts = new Set();
 const foods = new Set();
 let pacman;
 
+const direction = ["U", "L", "D", "R"];
+
 window.onload = function () {
   board = document.querySelector("#board");
   board.height = boardHeight;
@@ -39,6 +41,10 @@ window.onload = function () {
   // console.log(`Total Walls: ${walls.size}`);
   // console.log(`Total Foods: ${foods.size}`);
   // console.log(`Total Ghosts: ${ghosts.size}`);
+  for (const ghost of ghosts.values()) {
+    const newDirection = direction[Math.floor(Math.random() * 4)];
+    ghost.changeDirection(newDirection);
+  }
 };
 
 const tileMap = [
@@ -52,7 +58,7 @@ const tileMap = [
   "XXXX X       X XXXX",
   "000X X       X X000", // X = WALLS , 0 = FOOD , P = PAC-MAN , rbpy = ghosts
   "XXXX X XXrXX X XXXX",
-  "0       bpy       0",
+  "X       bpy       0",
   "XXXX X XXXXX X XXXX",
   "000X X       X X000",
   "XXXX X       X XXXX",
@@ -104,7 +110,7 @@ function update() {
 }
 
 function move() {
-  // change velocity
+  // change velocity for pac-man
   pacman.x += pacman.XVelocity;
   pacman.y += pacman.YVelocity;
 
@@ -114,6 +120,20 @@ function move() {
       pacman.x -= pacman.XVelocity;
       pacman.y -= pacman.YVelocity;
       break;
+    }
+  }
+
+  for (const ghost of ghosts.values()) {
+    // change velocity for ghost
+    ghost.x += ghost.XVelocity;
+    ghost.y += ghost.YVelocity;
+    for (const wall of walls.values()) {
+      if (collision(ghost, wall)) {
+        ghost.x -= ghost.XVelocity;
+        ghost.y -= ghost.YVelocity;
+        const newDirection = direction[(Math.floor(Math.random() * 4))];
+        ghost.changeDirection(newDirection);
+      }
     }
   }
 }
