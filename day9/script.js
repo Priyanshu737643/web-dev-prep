@@ -140,6 +140,12 @@ function move() {
   }
   foods.delete(foodConsumed);
 
+  // Load Next Level
+  if (foods.size == 0) {
+    loadMap();
+    resetPosition();
+  }
+
   // change velocity for ghost
   for (const ghost of ghosts.values()) {
     // collision between ghosts and pacman
@@ -361,7 +367,4 @@ function loadMap() {
   }
 }
 
-//! replace 32px = 256px
-// tile size = 32px  === 256px
-// height = 6 x 32px  ===  6 x 256px
-// width = 4 x 32px  ===  4 x 256px
+
