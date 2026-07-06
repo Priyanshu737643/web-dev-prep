@@ -159,8 +159,20 @@ class Block {
   }
 
   changeDirection(direction) {
+    const previousDirection = this.direction;
     this.direction = direction;
     this.changeVelocity();
+    this.x += this.XVelocity;
+    this.y += this.YVelocity;
+    for (const wall of walls.values()) {
+      if (collision(this, wall)) {
+        this.x -= this.XVelocity;
+        this.y -= this.YVelocity;
+        this.direction = previousDirection;
+        this.changeVelocity();
+        return;
+      }
+    }
   }
 
   changeVelocity() {
@@ -194,10 +206,20 @@ function movePlayer(event) {
   } else if (event.code == "ArrowRight" || event.code == "KeyD") {
     pacman.changeDirection("R");
   }
+  // change Pac-Man images
+  if (pacman.direction == "U") {
+    pacman.image = pacmanUp;
+  } else if (pacman.direction == "L") {
+    pacman.image = pacmanLeft;
+  } else if (pacman.direction == "D") {
+    pacman.image = pacmanDown;
+  } else if (pacman.direction == "R") {
+    pacman.image = pacmanRight;
+  }
 }
 
-function collision(a, b) {
-  return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + b.height > b.y;
+function collision(obj1, obj2) {
+  return obj1.x < obj2.x + obj2.width && obj1.x + obj1.width > obj2.x && obj1.y < obj2.y + obj2.height && obj1.y + obj2.height > obj2.y;
 }
 
 function loadMap() {
@@ -240,6 +262,8 @@ function loadMap() {
         foods.add(food);
         // 32-5 = 27/2
       }
+
+      
     }
   }
 }
