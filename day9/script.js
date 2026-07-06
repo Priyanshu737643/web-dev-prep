@@ -32,25 +32,6 @@ let score = 0;
 let lives = 3;
 let gameOver = false;
 
-window.onload = function () {
-  board = document.querySelector("#board");
-  board.height = boardHeight;
-  board.width = boardWidth;
-  context = board.getContext("2d");
-  // getContext('2d') - method returns a built-in CanvasRenderingContext2D Object.This provides the properties and methods needed to draw shapes, text, images, other graphics on an HTML canvas.
-  loadImage();
-  loadMap();
-  update();
-  this.document.addEventListener("keyup", movePlayer);
-  // console.log(`Total Walls: ${walls.size}`);
-  // console.log(`Total Foods: ${foods.size}`);
-  // console.log(`Total Ghosts: ${ghosts.size}`);
-  for (const ghost of ghosts.values()) {
-    const newDirection = direction[Math.floor(Math.random() * 4)];
-    ghost.changeDirection(newDirection);
-  }
-};
-
 const tileMap = [
   "XXXXXXXXXXXXXXXXXXX",
   "X       X         X",
@@ -74,6 +55,27 @@ const tileMap = [
   "X       X         X",
   "XXXXXXXXXXXXXXXXXXX",
 ];
+
+window.onload = function () {
+  board = document.querySelector("#board");
+  board.height = boardHeight;
+  board.width = boardWidth;
+  context = board.getContext("2d");
+  // getContext('2d') - method returns a built-in CanvasRenderingContext2D Object.This provides the properties and methods needed to draw shapes, text, images, other graphics on an HTML canvas.
+  loadImage();
+  loadMap();
+  update();
+  this.document.addEventListener("keyup", movePlayer);
+  // console.log(`Total Walls: ${walls.size}`);
+  // console.log(`Total Foods: ${foods.size}`);
+  // console.log(`Total Ghosts: ${ghosts.size}`);
+  for (const ghost of ghosts.values()) {
+    const newDirection = direction[Math.floor(Math.random() * 4)];
+    ghost.changeDirection(newDirection);
+  }
+};
+
+
 
 function loadImage() {
   //? Food Image
@@ -127,10 +129,27 @@ function move() {
     }
   }
 
- 
+  // check for food collision and provide scores
+  let foodConsumed = null;
+  for (let food of foods.values()) {
+    if (collision(pacman, food)) {
+      foodConsumed = food;
+      score += 10;
+      break;
+    }
+  }
+  foods.delete(foodConsumed);
 
   // change velocity for ghost
   for (const ghost of ghosts.values()) {
+    // collision between ghosts and pacman
+    if (collision(ghost, pacman)) {
+      lives -= 1;
+      if (lives == 0) {
+        gameOver = true;
+      }
+      resetPosition();
+    }
     if (
       ghost.y == tileSize * 9 &&
       ghost.direction == "L" ||
@@ -175,6 +194,15 @@ function draw() {
   context.fillStyle = "wheat";
   for (const food of foods.values()) {
     context.fillRect(food.x, food.y, food.width, food.height);
+  }
+  // display score
+  context.fillStyle = 'Black';
+  context.font = '20px Trebuchet MS';
+  if (gameOver) {
+    context.fillText("Game Over!!!\t\t\t" + "Score: " +  String(score) + "\t\t\nPress Movement Keys to Restart!", tileSize/2, tileSize/2);
+  }
+  else {
+    context.fillText("Lives: " + String(lives) + "\t\t\t\t\t\t" + "Score: " + String(score), tileSize/2, tileSize/2);
   }
 }
 
@@ -231,9 +259,34 @@ class Block {
       this.YVelocity = 0;
     }
   }
+
+  reset() {
+    this.x = this.XStart;
+    this.y = this.YStart;
+  }
+}
+
+function resetPosition() {
+  pacman.reset();
+  pacman.XVelocity = 0;
+  pacman.YVelocity = 0;
+  for (const ghost of ghosts) {
+    ghost.reset();
+    const newDirection = direction[Math.floor(Math.random() * 4)];
+    ghost.changeDirection(newDirection);
+  }
 }
 
 function movePlayer(event) {
+  if (gameOver) {
+    loadMap();
+    resetPosition();
+    score = 0;
+    lives = 3;
+    gameOver = false;
+    update();
+    return;
+  }
   if (event.code == "ArrowUp" || event.code == "KeyW") {
     pacman.changeDirection("U");
   } else if (event.code == "ArrowDown" || event.code == "KeyS") {
