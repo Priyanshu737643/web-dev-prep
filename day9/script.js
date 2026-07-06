@@ -28,6 +28,10 @@ let pacman;
 
 const direction = ["U", "L", "D", "R"];
 
+let score = 0;
+let lives = 3;
+let gameOver = false;
+
 window.onload = function () {
   board = document.querySelector("#board");
   board.height = boardHeight;
@@ -58,7 +62,7 @@ const tileMap = [
   "XXXX X       X XXXX",
   "000X X       X X000", // X = WALLS , 0 = FOOD , P = PAC-MAN , rbpy = ghosts
   "XXXX X XXrXX X XXXX",
-  "X       bpy       0",
+  "0       bpy       0",
   "XXXX X XXXXX X XXXX",
   "000X X       X X000",
   "XXXX X       X XXXX",
@@ -123,15 +127,28 @@ function move() {
     }
   }
 
+ 
+
+  // change velocity for ghost
   for (const ghost of ghosts.values()) {
-    // change velocity for ghost
+    if (
+      ghost.y == tileSize * 9 &&
+      ghost.direction == "L" ||
+      ghost.direction == "R"
+    ) {
+      ghost.changeDirection("U");
+    }
     ghost.x += ghost.XVelocity;
     ghost.y += ghost.YVelocity;
     for (const wall of walls.values()) {
-      if (collision(ghost, wall)) {
+      if (
+        collision(ghost, wall) ||
+        ghost.x <= 0 ||
+        ghost.x + ghost.width >= boardWidth
+      ) {
         ghost.x -= ghost.XVelocity;
         ghost.y -= ghost.YVelocity;
-        const newDirection = direction[(Math.floor(Math.random() * 4))];
+        const newDirection = direction[Math.floor(Math.random() * 4)];
         ghost.changeDirection(newDirection);
       }
     }
@@ -239,7 +256,12 @@ function movePlayer(event) {
 }
 
 function collision(obj1, obj2) {
-  return obj1.x < obj2.x + obj2.width && obj1.x + obj1.width > obj2.x && obj1.y < obj2.y + obj2.height && obj1.y + obj2.height > obj2.y;
+  return (
+    obj1.x < obj2.x + obj2.width &&
+    obj1.x + obj1.width > obj2.x &&
+    obj1.y < obj2.y + obj2.height &&
+    obj1.y + obj2.height > obj2.y
+  );
 }
 
 function loadMap() {
@@ -282,8 +304,6 @@ function loadMap() {
         foods.add(food);
         // 32-5 = 27/2
       }
-
-      
     }
   }
 }
