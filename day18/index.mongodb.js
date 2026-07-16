@@ -62,7 +62,6 @@
 //     }
 // ])  //? select specific fields
 
-
 // db.student.aggregate([
 //     {
 //         $sort: {
@@ -71,13 +70,11 @@
 //     }
 // ])  //? sort documents (1 = ascending) ( -1 = descending)
 
-
 // db.student.aggregate([
 //     {
 //         $count: "TotalDocuments"
 //     }
 // ])  //? counts the total documents
-
 
 // db.student.aggregate([
 //     {
@@ -102,8 +99,6 @@
 //     }
 
 // ])
-
-
 
 //* Aggregation practice on Dummy Data
 
@@ -179,9 +174,10 @@
 //     }
 // ])
 
-
 //! $out: "updatedOrders"
 //? create a new collection with the aggregated data. Replaces the old data with the one if present
 
 //! $merge: "updatedOrders"
 //? the same as $out but, it does not replace the old data. Instead, it add the new data and keep the old ones intact.
+
+//? find()  - return a cursor object

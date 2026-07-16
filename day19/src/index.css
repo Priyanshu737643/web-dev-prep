@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+
+/*! tailwind utility classes */
+
+/* .bold{
+    background-color:  black;
+    color: white;
+    font-weight: 900;
+} */
+
+
+body{
+    @apply select-none;
+}
+
+.h1Design{
+    /*? @apply - tailwind component */
+    /*? bg-blue-500 - tailwind utility */
+    @apply bg-blue-500 text-white font-extrabold text-4xl hover:bg-blue-800 transition;
+}
+
+.card{
+    @apply border-4 border-green-950 text-white bg-green-600 h-40 w-100 text-center font-bold font-serif rounded-xl m-5;
+    &&:hover{
+        @apply bg-green-800
+    }
+}
+
+.card2{
+    padding: 50px;
+    background-color: antiquewhite;
+    border: 2px solid burlywood;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+
+.ulNav{
+    @apply bg-blue-500 flex justify-around items-center gap-5;
+}
+
+.navItems{
+    @apply h-10 w-30 text-xl text-white flex justify-center items-center font-bold cursor-pointer;
+    &&:hover{
+        @apply bg-blue-800
+    }
+}
+
+.addBtn{
+    @apply h-10 w-10 bg-blue-600 text-white transition rounded-xl m-2;
+    &&:hover{
+        @apply bg-blue-800;
+    }
+}
+.resetBtn{
+    @apply h-10 w-10 bg-red-600 text-white transition rounded-xl m-2;
+    &&:hover{
+        @apply bg-red-800;
+    }
+}
+.subsBtn{
+    @apply h-10 w-10 bg-yellow-600 text-white transition rounded-xl m-2;
+    &&:hover{
+        @apply bg-yellow-800;
+    }
+}
