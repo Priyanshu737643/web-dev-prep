@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+.dark {
+  background-color: #08060d;
+  color: white;
+}
+
+.light {
+  background-color: white;
+  color: #08060d;
+}
+
+h1 {
+  @apply font-extrabold text-3xl;
+}
+
+.ulDesign {
+  @apply flex justify-center items-center gap-10 h-14 bg-amber-700 text-white font-bold text-xl;
+}
+
+.itemDesign {
+  @apply h-14 w-30 transition flex justify-center items-center;
+
+  &&:hover {
+    @apply bg-amber-800;
+  }
+}
+
+.active {
+  @apply bg-amber-900;
+}
+.contentSpace{
+  height: calc(100vh - 112px);
+}
+
+footer{
+  @apply bg-amber-700 text-2xl font-bold text-center text-white h-14;
+}
+
+#textbox1{
+  @apply border-2 border-green-900 w-80 rounded-4xl m-2 px-3 py-2 text-white text-2xl font-bold transition;
+  &&:focus{
+    @apply bg-green-600
+  }
+}
+#btn1{
+  @apply w-40 h-10 bg-amber-700 font-bold text-xl text-white border-2 border-e-amber-500 rounded-full;
+  &&:hover{
+    @apply bg-amber-800;
+  }
+  &&:active{
+    @apply bg-amber-900;
+  }
+}
